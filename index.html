@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rubik's Cube</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23a78bfa'/><stop offset='1' stop-color='%2334d399'/></linearGradient></defs><rect width='64' height='64' rx='16' fill='%230f0f17'/><rect x='6' y='6' width='23' height='23' rx='5' fill='%23f87171'/><rect x='35' y='6' width='23' height='23' rx='5' fill='%23fb923c'/><rect x='6' y='35' width='23' height='23' rx='5' fill='%2334d399'/><rect x='35' y='35' width='23' height='23' rx='5' fill='%2360a5fa'/></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- ════ SPLASH ════ -->
+<div id="splash">
+  <div class="particles" id="particles"></div>
+
+  <div class="sp-wrap">
+    <div class="sp-inner" id="sp-inner">
+      <div class="sp-face sp-f"></div><div class="sp-face sp-b"></div>
+      <div class="sp-face sp-r"></div><div class="sp-face sp-l"></div>
+      <div class="sp-face sp-u"></div><div class="sp-face sp-d"></div>
+    </div>
+  </div>
+
+  <h1 class="sp-title">RUBIK'S<br><span style="font-weight:300;letter-spacing:16px;font-size:.48em">CUBE</span></h1>
+  <p class="sp-tag">3D · Interactive · Visual Controls</p>
+
+  <button class="sp-btn" id="btn-start"><span>▶ &nbsp;Start Now</span></button>
+
+  <div class="sp-features">
+    <div class="sp-feat">3D Drag Rotate</div>
+    <div class="sp-feat">Live Net View</div>
+    <div class="sp-feat">Visual Controls</div>
+  </div>
+
+  <p class="sp-credit">Made by <a href="https://parrishtarak.vercel.app/" target="_blank">Parrish Tarak</a></p>
+</div>
+
+<!-- ════ GAME ════ -->
+<div id="game" class="hidden">
+
+  <header class="g-hdr">
+    <div class="hdr-logo">
+      <div class="hdr-logo-icon" id="logo-icon">
+        <span style="background:#f87171"></span><span style="background:#fb923c"></span>
+        <span style="background:#34d399"></span><span style="background:#60a5fa"></span>
+      </div>
+      <span class="hdr-logo-text">Rubik's Cube</span>
+    </div>
+    <div class="hdr-stats">
+      <div class="stat-chip" id="chip-moves">
+        <span class="icon">🔀</span><span>Moves</span><strong id="mc">0</strong>
+      </div>
+      <div class="stat-chip" id="chip-time">
+        <span class="icon">⏱</span><span>Time</span><strong id="tc">0:00</strong>
+      </div>
+    </div>
+  </header>
+
+  <div class="g-main">
+
+    <!-- LEFT: 3D -->
+    <div class="col-3d">
+      <div class="col-badge">Drag to rotate</div>
+      <div class="drag-ring"></div>
+      <div class="cube-vp" id="cwrap">
+        <div class="cube-scene" id="cscene">
+          <div class="cube-face cf-front"  id="ff"></div>
+          <div class="cube-face cf-back"   id="fb"></div>
+          <div class="cube-face cf-right"  id="fr"></div>
+          <div class="cube-face cf-left"   id="fl"></div>
+          <div class="cube-face cf-top"    id="fu"></div>
+          <div class="cube-face cf-bottom" id="fd"></div>
+        </div>
+      </div>
+      <div class="act-row">
+        <button class="act-pill p-scramble" id="qscramble">
+          <span class="p-icon">🔀</span> Scramble
+        </button>
+        <button class="act-pill p-solve" id="qsolve">
+          <span class="p-icon">✨</span> Solved
+        </button>
+        <button class="act-pill p-reset" id="qreset">
+          <span class="p-icon">↺</span> Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- CENTER: Net -->
+    <div class="col-net">
+      <div class="net-badge">📐 Live Cube Net</div>
+      <div class="cube-net">
+        <div class="net-row" id="nr1"></div>
+        <div class="net-row" id="nr2"></div>
+        <div class="net-row" id="nr3"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Controls -->
+    <div class="col-ctrl" id="ctrl-col">
+      <div class="ctrl-head">Face Controls</div>
+
+      <!-- move cards injected by JS -->
+
+      <div class="last-box" id="last-box">
+        <div class="lm-badge" id="lm-b">—</div>
+        <div class="lm-info">
+          <div class="lm-name" id="lm-n">Make a move!</div>
+          <div class="lm-desc" id="lm-d">Tap a button or press a key</div>
+        </div>
+      </div>
+
+      <div class="kb-card">
+        <div class="kb-title">⌨ Keyboard</div>
+        <kbd>u</kbd> U &nbsp;<kbd>U</kbd> U'&nbsp;
+        <kbd>d</kbd> D &nbsp;<kbd>D</kbd> D'<br>
+        <kbd>r</kbd> R &nbsp;<kbd>R</kbd> R'&nbsp;
+        <kbd>l</kbd> L &nbsp;<kbd>L</kbd> L'<br>
+        <kbd>f</kbd> F &nbsp;<kbd>F</kbd> F'&nbsp;
+        <kbd>b</kbd> B &nbsp;<kbd>B</kbd> B'
+      </div>
+    </div>
+
+  </div><!-- g-main -->
+
+  <footer class="g-footer">
+    Made with ❤️ by &nbsp;<a href="https://parrishtarak.vercel.app/" target="_blank">Parrish Tarak</a>
+  </footer>
+</div>
+
+<!-- WIN -->
+<div id="win-overlay" class="hidden">
+  <div class="win-card">
+    <div class="win-icon">🎉</div>
+    <div class="win-title">Cube Solved!</div>
+    <div class="win-stats" id="win-stats"></div>
+    <div class="win-btns">
+      <button class="win-btn wbp" id="win-again">🔀 Play Again</button>
+      <button class="win-btn wbs" id="win-close">✖ Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
